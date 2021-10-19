@@ -17,6 +17,11 @@
             $this->SaveData();
         }
 
+        private function FetchAll()
+        {
+            
+        }
+
         public function GetAll()
         {
             $this->RetrieveData();
@@ -30,9 +35,17 @@
 
             foreach($this->studentList as $student)
             {
-                $valuesArray["recordId"] = $student->getRecordId();
+                $valuesArray["studentId"] = $student->getRecordId();
+                $valuesArray["careerId"] = $student->getCareerId();
                 $valuesArray["firstName"] = $student->getFirstName();
                 $valuesArray["lastName"] = $student->getLastName();
+                $valuesArray["dni"] = $student->getDni();
+                $valuesArray["fileNumber"] = $student->getFileNumber();
+                $valuesArray["gender"] = $student->getGender();
+                $valuesArray["birthDate"] = $student->getBirthDate();
+                $valuesArray["email"] = $student->getEmail();
+                $valuesArray["phoneNumber"] = $student->getPhoneNumber();
+                $valuesArray["active"] = $student->getActive();
 
                 array_push($arrayToEncode, $valuesArray);
             }
@@ -55,9 +68,18 @@
                 foreach($arrayToDecode as $valuesArray)
                 {
                     $student = new Student();
-                    $student->setRecordId($valuesArray["recordId"]);
+                    
+                    $student->setStudentId($valuesArray["studentId"]);
+                    $student->setCareerId($valuesArray["careerId"]);
                     $student->setFirstName($valuesArray["firstName"]);
                     $student->setLastName($valuesArray["lastName"]);
+                    $student->setDni($valuesArray["dni"]);
+                    $student->setFileNumber($valuesArray["fileNumber"]);
+                    $student->setGender($valuesArray["gender"]);
+                    $student->setBirthDate($valuesArray["birthDate"]);
+                    $student->setEmail($valuesArray["email"]);
+                    $student->setPhoneNumber($valuesArray["phoneNumber"]);
+                    $student->setActive($valuesArray["active"]);
 
                     array_push($this->studentList, $student);
                 }

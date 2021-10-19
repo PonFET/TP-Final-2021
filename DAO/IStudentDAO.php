@@ -6,6 +6,6 @@
     interface IStudentDAO
     {
         function Add(Student $student);
-        function GetAll();
+        function GetAll();        
     }
 ?>
