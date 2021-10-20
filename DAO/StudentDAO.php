@@ -73,6 +73,11 @@
 
         public function GetAll()
         {
+            if(!file_exists('Data/students.json'))
+            {
+                $this->FetchAll();
+            }
+            
             $this->RetrieveData();
 
             return $this->studentList;
