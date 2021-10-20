@@ -9,6 +9,6 @@
      <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>bootstrap.min.css">
      <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>estilos.css">
 
-     <title>Framework Example</title>
+     <title>TP Integrador 2021</title>
 </head>
 <body>

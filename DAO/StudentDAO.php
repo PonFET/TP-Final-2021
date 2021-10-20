@@ -7,6 +7,23 @@
     class StudentDAO implements IStudentDAO
     {
         private $studentList = array();
+        private $fileName;
+        private $ch;
+
+        public function __construct()
+        {
+            $this->fileName = dirname(__DIR__) . "/Data/students.json";
+            
+            $this->ch = curl_init();
+            $url = 'https://utn-students-api.herokuapp.com/api/Student';
+            $header = array('x-api-key: 4f3bceed-50ba-4461-a910-518598664c08');
+
+            curl_setopt($this->ch, CURLOPT_URL, $url);
+            curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $header);
+        }
+
+
 
         public function Add(Student $student)
         {
@@ -17,10 +34,42 @@
             $this->SaveData();
         }
 
+
         private function FetchAll()
-        {
+        {                       
+            $resp = curl_exec($this->ch);
+
+            $decode = json_decode($resp, true);
+
+            curl_close($this->ch);
+
+            $this->studentList = array();
             
+            if ($resp != null)
+            {
+                foreach($decode as $valuesArray)
+                {
+                    $student = new Student();
+                        
+                    $student->setStudentId($valuesArray["studentId"]);
+                    $student->setCareerId($valuesArray["careerId"]);
+                    $student->setFirstName($valuesArray["firstName"]);
+                    $student->setLastName($valuesArray["lastName"]);
+                    $student->setDni($valuesArray["dni"]);
+                    $student->setFileNumber($valuesArray["fileNumber"]);
+                    $student->setGender($valuesArray["gender"]);
+                    $student->setBirthDate($valuesArray["birthDate"]);
+                    $student->setEmail($valuesArray["email"]);
+                    $student->setPhoneNumber($valuesArray["phoneNumber"]);
+                    $student->setActive($valuesArray["active"]);
+
+                    array_push($this->studentList, $student);
+                }
+
+                $this->SaveData();
+            }           
         }
+
 
         public function GetAll()
         {
@@ -28,6 +77,7 @@
 
             return $this->studentList;
         }
+
 
         private function SaveData()
         {
@@ -54,6 +104,7 @@
             
             file_put_contents('Data/students.json', $jsonContent);
         }
+
 
         private function RetrieveData()
         {

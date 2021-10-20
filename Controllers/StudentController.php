@@ -13,6 +13,11 @@
             $this->studentDAO = new StudentDAO();
         }
 
+        public function Index()
+        {
+            
+        }
+
         public function ShowAddView()
         {
             require_once(VIEWS_PATH."student-add.php");
